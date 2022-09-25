@@ -1,0 +1,47 @@
+<title>Sovellus</title>
+<h1>Tietokantasovellus</h1>
+<br>
+{% for a in messages %}
+{{a[0]}}
+{{a[1].strftime("%H:%M")}}
+<br>
+<hr>
+{% endfor %}
+<form action="/send" method="POST" onsubmit="return check(this)">
+    <textarea name="new_message"></textarea>
+    <br></br>
+    <input type="submit" value="Lähetä">
+    <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+</form>
+<script>
+function check(form) {
+    if (form.new_message.value.length > 100) {
+        alert("Teksti ylittää 100 merkin rajan");
+        return false;
+    }
+    return true;
+}
+</script>
+{{error}}
+{% if session.user_id %}
+<p>Olet kirjautunut nimellä {{ session.username }}</p>
+<a href="/logout">Kirjaudu ulos</a>
+<br>
+
+{% else %}
+<p>Kirjaudu sisään</p>
+<form action="/login" method="POST">
+    <p>Tunnus:<br>
+    <input type="text" name="username"></p>
+    <p>Salasana:<br>
+    <input type="password" name="password"></p>
+    <input type="submit" value="Kirjaudu">
+</form>
+<a href="/register">Rekisteröidy</a>
+{% endif %}
+
+
+
+
+
+
