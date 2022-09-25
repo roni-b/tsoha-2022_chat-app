@@ -12,11 +12,19 @@ def index():
 def register():
     if request.method == "GET":
         return render_template("register.html")
-    username = request.form["username"]
-    password = request.form["password"]
-    if users.register(username, password):
-        return redirect("/")
-    return render_template("index.html", error="Rekisteröinti epäonnistui")
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        if len(username) or len(password) == 0:
+            render_template("index.html", error="Rekisteröinti epäonnistui")
+        elif len(username) < 3:
+            render_template("index.html", error="Rekisteröinti epäonnistui")
+        elif len(password) < 4:
+            render_template("index.html", error="Rekisteröinti epäonnistui")
+        else:
+            if users.register(username, password):
+                return redirect("/")
+        return render_template("index.html", error="Rekisteröinti epäonnistui")
 
 @app.route("/login", methods=["POST"])
 def login():

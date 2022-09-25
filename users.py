@@ -5,13 +5,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from secrets import token_hex
 
 def register(username, password):
-    if username[0] == " ":
-        return False
-    elif len(username) < 3:
-        return False
-    elif len(password) < 4:
-        return False
-    
     hash_value = generate_password_hash(password)
     sql = "INSERT INTO users (password, username) VALUES (:password, :username)"
     db.session.execute(sql, {"password":hash_value, "username":username})
