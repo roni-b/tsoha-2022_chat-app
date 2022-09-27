@@ -2,7 +2,7 @@ from db import db
 import routes
 from flask import session, request
 import users
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timedelta
 
 def get_messages():
     sql = ("SELECT content, sent_at FROM messages;")
@@ -15,8 +15,9 @@ def add_message(new):
             return False
         user_id = users.user_id()
         if len(new) > 0:
-            utc3 = timedelta(hours=3)
-            time = datetime.now(timezone(utc3))
+            dif = timedelta(hours=3)
+            now = datetime.now()
+            time = now + dif
             sql = "INSERT INTO messages (content, sent_at, user_id) VALUES (:new_message, :sent_at, :user_id)"
             db.session.execute(sql, {"new_message":new, "sent_at":time, "user_id":user_id})
             db.session.commit()
