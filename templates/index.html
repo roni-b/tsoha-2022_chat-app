@@ -8,7 +8,6 @@
             <h1>Tietokantasovellus</h1>
             <br>
             {% for a in messages %}
-            <b>{{session.username}}</b>
             {{a[0]}}
             <br>
             {{a[1].strftime("%d.%m %H:%M")}}
@@ -21,15 +20,14 @@
                 <input type="submit" value="Lähetä">
                 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             </form>
+            {{error}}
         </div>
         <div class="col">
             <br>
-            {{error}}
             {% if session.user_id %}
             <p>Olet kirjautunut nimellä {{ session.username }}</p>
             <a href="/logout">Kirjaudu ulos</a>
             <br>
-        
             {% else %}
             <p>Kirjaudu sisään</p>
             <form action="/login" method="POST">

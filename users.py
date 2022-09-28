@@ -47,3 +47,9 @@ def admin():
         return session["admin"]
     except:
         return False
+       
+def get_users():
+    sql = "SELECT username FROM users"
+    result = db.session.execute(sql)
+    return result.fetchall()
+

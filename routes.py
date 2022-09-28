@@ -5,8 +5,9 @@ import functions, users
 
 @app.route("/")
 def index():
-    all = functions.get_messages()
-    return render_template("index.html", messages=all)
+    all_messages = functions.get_messages()
+    all_users = users.get_users()
+    return render_template("index.html", messages=all_messages, users=all_users)
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
@@ -15,15 +16,10 @@ def register():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        if len(username) or len(password) == 0:
-            render_template("index.html", error="Rekisteröinti epäonnistui")
-        elif len(username) < 3:
-            render_template("index.html", error="Rekisteröinti epäonnistui")
-        elif len(password) < 4:
-            render_template("index.html", error="Rekisteröinti epäonnistui")
-        else:
-            if users.register(username, password):
-                return redirect("/")
+        if len(username) or len(password) < 3:
+            render_template("index.html", error="Tunnus tai salasana liian lyhyt")
+        if users.register(username, password):
+            return redirect("/")
         return render_template("index.html", error="Rekisteröinti epäonnistui")
 
 @app.route("/login", methods=["POST"])
