@@ -22,13 +22,16 @@ def register():
             return redirect("/")
         return render_template("index.html", error="Rekisteröinti epäonnistui")
 
-@app.route("/login", methods=["POST"])
+@app.route("/login", methods=["POST", "GET"])
 def login():
-    username = request.form["username"]
-    password = request.form["password"]
-    if users.login(username, password):
-        return redirect("/")
-    return render_template("/index.html", error="Väärä tunnus tai salasana")
+    if request.method == "GET":
+        return render_template("login.html")
+    if request.method == "POST":
+        username = request.form["username"]
+        password = request.form["password"]
+        if users.login(username, password):
+            return redirect("/")
+        return render_template("/index.html", error="Väärä tunnus tai salasana")
 
 @app.route("/logout")
 def logout():
