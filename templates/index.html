@@ -1,9 +1,13 @@
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+
 <title>Sovellus</title>
 <h1>Tietokantasovellus</h1>
 <br>
 {% for a in messages %}
+<b>{{session.username}}</b>
 {{a[0]}}
-{{a[1].strftime("%H:%M")}}
+<br>
+{{a[1].strftime("%d.%m %H:%M")}}
 <br>
 <hr>
 {% endfor %}
@@ -39,9 +43,3 @@ function check(form) {
 </form>
 <a href="/register">Rekisteröidy</a>
 {% endif %}
-
-
-
-
-
-
