@@ -1,4 +1,9 @@
 
+{% extends "index.html" %}
+{% block title %}Rekisteröityminen{% endblock %}
+{% block content %}
+<iframe src="/"></iframe>
+<br>
 <p>Rekisteröi uusi tunnus:</p>
 <form action="/register" method="POST">
     <p>Tunnus:<br>
@@ -7,3 +12,4 @@
     <input type="password" name="password"></p>
     <input type="submit" value="Rekisteröidy">
 </form>
+{% endblock %}
