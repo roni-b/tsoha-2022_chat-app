@@ -1,0 +1,49 @@
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+<title>{% block title %}{% endblock %}</title>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <br>
+            <h1>Viestisovellus</h1>
+            <br>
+            {% for a in messages %}
+            {{a[0]}}
+            <br>
+            {{a[1].strftime("%d.%m %H:%M")}}
+            <br>
+            <hr>
+            {% endfor %}
+            <form action="/send" method="POST" onsubmit="return check(this)">
+                <textarea name="new_message"></textarea>
+                <br></br>
+                <input type="submit" value="Lähetä">
+                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+            </form>
+            {{error}}
+        </div>
+        <div class="col">
+            {% block content %}
+            <br>
+            {% if session.user_id %}
+            <p>Olet kirjautunut nimellä {{ session.username }}</p>
+            <a href="/logout">Kirjaudu ulos</a>
+            <br>
+            {% else %}
+            <a href="/login">Kirjaudu sisään</a>
+            <a href="/register">Rekisteröidy</a>
+            {% endif %}
+            {% endblock %}
+        </div>
+    </div>
+</div>
+
+<script>
+    function check(form) {
+        if (form.new_message.value.length > 100) {
+            alert("Teksti ylittää 100 merkin rajan");
+            return false;
+        }
+        return true;
+    }
+    </script>
