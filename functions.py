@@ -8,6 +8,11 @@ def get_messages():
     sql = ("SELECT content, sent_at FROM messages;")
     result = db.session.execute(sql)
     return result.fetchall()
+    
+def get_groups():
+    sql = ("SELECT name, user_id FROM groups;")
+    result = db.session.execute(sql)
+    return result.fetchall()
 
 def add_message(new):
     try:

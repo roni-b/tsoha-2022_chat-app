@@ -7,7 +7,9 @@ import functions, users
 def index():
     all_messages = functions.get_messages()
     all_users = users.get_users()
-    return render_template("index.html", messages=all_messages, users=all_users)
+    all_groups = functions.get_groups()
+    return render_template("index.html", messages=all_messages, users=all_users,
+    groups=all_groups)
 
 @app.route("/register", methods=["POST", "GET"])
 def register():

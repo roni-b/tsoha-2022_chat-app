@@ -20,7 +20,7 @@ CREATE TABLE groups (
 
 CREATE TABLE members (
     id SERIAL PRIMARY KEY,
-    user_id REFERENCES users
+    user_id INTEGER REFERENCES users
 );
 
 CREATE TABLE groupMembers (
