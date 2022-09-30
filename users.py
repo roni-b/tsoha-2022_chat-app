@@ -2,7 +2,6 @@ import secrets
 from db import db
 from flask import session
 from werkzeug.security import generate_password_hash, check_password_hash
-from secrets import token_hex
 
 def register(username, password):
     hash_value = generate_password_hash(password)
@@ -52,4 +51,15 @@ def get_users():
     sql = "SELECT username FROM users"
     result = db.session.execute(sql)
     return result.fetchall()
+
+def check_user(username):
+    sql = "SELECT username FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
+    user = result.fetchone()
+    print(user)
+    if not user:
+        return False
+    return True
+
+
 

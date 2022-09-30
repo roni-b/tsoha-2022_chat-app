@@ -17,6 +17,8 @@ def register():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        if users.check_user(username):
+            return render_template("error.html", error="Tunnus on jo olemassa")
         if len(username) < 3 or len(password) < 3:
             return render_template("error.html", error="Tunnus tai salasana liian lyhyt")
         if users.register(username, password):
@@ -51,6 +53,10 @@ def send():
 @app.route("/new_conversation", methods=["POST"])
 def newConversation():
     choises = request.form.getlist("choices")
+
+    for choise in choises:
+        pass
     if len(choises) == 0:
         return redirect("/")
     return render_template("new_conversation.html", toUsers=choises)
+
