@@ -3,26 +3,41 @@
 <link rel="stylesheet" type="text/css" href="custom.css">
 <title>{% block title %}Etusivu{% endblock %}</title>
 <div class="container">
+    {% block first %}
     <div class="row">
       {% if session.user_id %} 
       <div class="col">
         <br>
         <h3>Ryhmät</h3>
-        <br>
         {% for group in groups %}
         {{group[0]}}
+        <br>
         {% endfor %}
+        <br>
+        <h3>Käyttäjät</h3>
+        <form action="/new_conversation" method="POST">
+        {% for user in users %}
+        {% if user[0] != session.username%}
+          {{user[0]}}
+          <input type="checkbox" name="choices" value={{user[0]}}>
+        <br>
+        {% endif %}
+        {% endfor %}
+        <br>
+          <input type="submit" value="Luo viestiketju">
+        </form>
       </div>
       {% endif %}
+      {% endblock %}
         <div class="col-6">
             <br>
             <h1>Viestisovellus</h1>
             <br>
             {% block content %}
-            {% for a in messages %}
-            {{a[0]}}
+            {% for message in messages %}
+            {{message[0]}}
             <br>
-            {{a[1].strftime("%d.%m %H:%M")}}
+            {{message[1].strftime("%d.%m %H:%M")}}
             <br>
             <hr>
             {% endfor %}
