@@ -19,7 +19,7 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
         if len(username) or len(password) < 3:
-            render_template("index.html", error="Tunnus tai salasana liian lyhyt")
+            return render_template("index.html", error="Tunnus tai salasana liian lyhyt")
         if users.register(username, password):
             return redirect("/")
         return render_template("index.html", error="Rekisteröinti epäonnistui")
