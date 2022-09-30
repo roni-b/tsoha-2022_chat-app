@@ -1,0 +1,17 @@
+{% extends "index.html" %}
+{% block title %}Viestiketju{% endblock %}
+{% block first %} 
+{% endblock %}
+{% block content %}
+<a href="/">Etusivulle</a>
+<br>
+<p>Viestiketjun jäsenet</p>
+{{session.username}}
+<br>
+{% for a in toUsers %}
+{{a}}
+<br>
+{% endfor %}
+ 
+{% endblock %}
+

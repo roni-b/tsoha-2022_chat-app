@@ -14,16 +14,12 @@ CREATE TABLE messages (
 
 CREATE TABLE groups (
     id SERIAL PRIMARY KEY,
-    name TEXT,
-    user_id INTEGER REFERENCES users
-);
-
-CREATE TABLE members (
-    id SERIAL PRIMARY KEY,
-    user_id INTEGER REFERENCES users
+    name TEXT
 );
 
 CREATE TABLE groupMembers (
-    group_id INTEGER REFERENCES groups,
-    member_id INTEGER REFERENCES members
+    groups_id INTEGER REFERENCES groups,
+    member_id INTEGER REFERENCES users
 );
+
+

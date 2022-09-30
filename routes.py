@@ -8,8 +8,7 @@ def index():
     all_messages = functions.get_messages()
     all_users = users.get_users()
     all_groups = functions.get_groups()
-    return render_template("index.html", messages=all_messages, users=all_users,
-    groups=all_groups)
+    return render_template("index.html", messages=all_messages, users=all_users, groups=all_groups)
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
@@ -19,10 +18,10 @@ def register():
         username = request.form["username"]
         password = request.form["password"]
         if len(username) or len(password) < 3:
-            return render_template("index.html", error="Tunnus tai salasana liian lyhyt")
+            return render_template("error.html", error="Tunnus tai salasana liian lyhyt")
         if users.register(username, password):
             return redirect("/")
-        return render_template("index.html", error="Rekisteröinti epäonnistui")
+        return render_template("error.html", error="Rekisteröinti epäonnistui")
 
 @app.route("/login", methods=["POST", "GET"])
 def login():
@@ -33,7 +32,7 @@ def login():
         password = request.form["password"]
         if users.login(username, password):
             return redirect("/")
-        return render_template("/index.html", error="Väärä tunnus tai salasana")
+        return render_template("error.html", error="Väärä tunnus tai salasana")
 
 @app.route("/logout")
 def logout():
@@ -44,7 +43,14 @@ def logout():
 def send():
     new = request.form["new_message"]
     if len(new) > 100:
-        return render_template("/index.html", error="Viesti on liian pitkä")
+        return render_template("error.html", error="Viesti on liian pitkä")
     if functions.add_message(new):
         return redirect("/")
-    return render_template("/index.html", error="Lähetys ei onnistunut")
+    return render_template("error.html", error="Lähetys ei onnistunut")
+
+@app.route("/new_conversation", methods=["POST"])
+def newConversation():
+    choises = request.form.getlist("choices")
+    if len(choises) == 0:
+        return redirect("/")
+    return render_template("new_conversation.html", toUsers=choises)

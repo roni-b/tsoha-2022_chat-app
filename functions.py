@@ -8,11 +8,24 @@ def get_messages():
     sql = ("SELECT content, sent_at FROM messages;")
     result = db.session.execute(sql)
     return result.fetchall()
-    
+
+def get_messages2():
+    #return messages
+    pass
+
 def get_groups():
-    sql = ("SELECT name, user_id FROM groups;")
+    sql = ("SELECT name FROM groups;")
     result = db.session.execute(sql)
     return result.fetchall()
+
+def add_group(new):
+    user_id = users.user_id()
+    sql = ("INSERT INTO groups (name) VALUES (:name)")
+    db.session.execute(sql, {"name":new})
+
+def add_member(group_id, member_id):
+    sql = ("INSERT INTO groupMembers (group_id, member_id) VALUES (:group_id, :member_id)")
+    db.session.execute(sql, {"group_id":group_id, "member_id":member_id})
 
 def add_message(new):
     try:
@@ -35,3 +48,4 @@ def add_message(new):
             #db.session.commit()
             #return True
         return False
+
