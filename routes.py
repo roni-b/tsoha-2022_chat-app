@@ -17,7 +17,7 @@ def register():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
-        if len(username) or len(password) < 3:
+        if len(username) < 3 or len(password) < 3:
             return render_template("error.html", error="Tunnus tai salasana liian lyhyt")
         if users.register(username, password):
             return redirect("/")
