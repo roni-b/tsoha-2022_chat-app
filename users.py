@@ -61,5 +61,7 @@ def check_user(username):
         return False
     return True
 
-
-
+def get_user_id(username):
+    sql = "SELECT id FROM users WHERE username=:username"
+    result = db.session.execute(sql, {"username":username})
+    return result.fetchone()

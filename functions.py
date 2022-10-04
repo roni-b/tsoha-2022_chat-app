@@ -1,5 +1,7 @@
 from db import db
 import routes
+from db import db
+import routes
 from flask import session, request
 import users
 from datetime import datetime, timedelta
@@ -18,14 +20,34 @@ def get_groups():
     result = db.session.execute(sql)
     return result.fetchall()
 
-def add_group(new):
-    user_id = users.user_id()
-    sql = ("INSERT INTO groups (name) VALUES (:name)")
-    db.session.execute(sql, {"name":new})
+def add_group(members):
+    try:
+        sql = ("INSERT INTO groups (name) VALUES (:name)")
+        db.session.execute(sql, {"name":members})
+        db.session.commit()
+        sql = ("SELECT id FROM groups WHERE name=:name")
+        result = db.session.execute(sql, {"name":members})
+        group_id = result.fetchone()
+        for member in members:
+            user_id = users.get_user_id(member)
+            if not add_member(group_id, user_id):
+                return False
+        return True
+    except:
+        print("addgroup errorr") 
+        return False
 
-def add_member(group_id, member_id):
-    sql = ("INSERT INTO groupMembers (group_id, member_id) VALUES (:group_id, :member_id)")
-    db.session.execute(sql, {"group_id":group_id, "member_id":member_id})
+def add_member(group_id, user_id):
+    try:
+        group_id_s = str(group_id).strip(",()")
+        user_id_s = str(user_id).strip(",()")
+        sql = ("INSERT INTO groupMembers (group_id, member_id) VALUES (:group_id, :member_id)")
+        db.session.execute(sql, {"group_id":group_id_s, "member_id":user_id_s})
+        db.session.commit()
+        return True
+    except:
+        print("addmembererror")
+        return False
 
 def add_message(new):
     try:
@@ -48,4 +70,6 @@ def add_message(new):
             #db.session.commit()
             #return True
         return False
+
+
 

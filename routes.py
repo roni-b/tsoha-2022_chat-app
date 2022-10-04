@@ -52,11 +52,13 @@ def send():
 
 @app.route("/new_conversation", methods=["POST"])
 def newConversation():
-    choises = request.form.getlist("choices")
-
-    for choise in choises:
-        pass
+    choises = request.form.getlist("choices")    
     if len(choises) == 0:
         return redirect("/")
-    return render_template("new_conversation.html", toUsers=choises)
+    if functions.add_group(choises):
+        return render_template("new_conversation.html", toUsers=choises)
+    return render_template("error.html", error="Ryhmän luonti ei onnistunut, samanlainen ryhmä voi olla jo olemassa")
 
+@app.route("/conversation", methods=["POST"])
+def conversation():
+    return redirect("/")
