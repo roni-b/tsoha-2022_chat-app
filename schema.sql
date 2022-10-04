@@ -9,17 +9,19 @@ CREATE TABLE messages (
     id SERIAL PRIMARY KEY,
     content TEXT,
     sent_at TIMESTAMP,
-    user_id INTEGER REFERENCES users
+    user_id INTEGER REFERENCES users,
+    groups_id INTEGER REFERENCES groups 
 );
 
 CREATE TABLE groups (
     id SERIAL PRIMARY KEY,
-    name TEXT
+    name TEXT[] UNIQUE
 );
 
 CREATE TABLE groupMembers (
     groups_id INTEGER REFERENCES groups,
     member_id INTEGER REFERENCES users
 );
+
 
 
