@@ -34,15 +34,9 @@
             <br>
             <h1>Viestisovellus</h1>
             <br>
-            <iframe src="/"></iframe>
+            <iframe class="viestit" src="/messages"></iframe>
             {% block content %}
-            {% for message in messages %}
-            {{message[0]}}
-            <br>
-            {{message[1].strftime("%d.%m %H:%M")}}
-            <br>
-            <hr>
-            {% endfor %}
+            <br></br>
             <form action="/send" method="POST" onsubmit="return check(this)">
                 <textarea name="new_message"></textarea>
                 <br></br>

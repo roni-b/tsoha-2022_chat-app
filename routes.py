@@ -56,9 +56,15 @@ def newConversation():
     if len(choises) == 0:
         return redirect("/")
     if functions.add_group(choises):
-        return render_template("new_conversation.html", toUsers=choises)
+        return redirect("/")
     return render_template("error.html", error="Ryhmän luonti ei onnistunut, samanlainen ryhmä voi olla jo olemassa")
 
 @app.route("/conversation", methods=["POST"])
 def conversation():
+    members = request.form["group"]
     return redirect("/")
+
+@app.route("/messages", methods=["GET"])
+def messages():
+    all_messages = functions.get_messages()
+    return render_template("messages.html", allMessages=all_messages)

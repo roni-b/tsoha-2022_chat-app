@@ -1,0 +1,8 @@
+{% for message in allMessages %}
+{{message[0]}}
+<br>
+{{message[1].strftime("%d.%m %H:%M")}}
+<br>
+<hr>
+{% endfor %}
+
