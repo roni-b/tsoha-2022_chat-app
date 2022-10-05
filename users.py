@@ -28,6 +28,7 @@ def login(username, password):
 def logout():
     del session["user_id"]
     del session["username"]
+    del session["receive"]
 
 def user_id():
     try:
