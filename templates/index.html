@@ -31,11 +31,8 @@
       {% endif %}
       {% endblock %}
         <div class="col-6">
-            <br>
-            <h1>Viestisovellus</h1>
-            <br>
-            <iframe class="viestit" src="/messages"></iframe>
             {% block content %}
+            <iframe class="viestit" src="/messages"></iframe>
             <br></br>
             <form action="/send" method="POST" onsubmit="return check(this)">
                 <textarea name="new_message"></textarea>
