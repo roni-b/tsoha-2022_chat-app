@@ -1,6 +1,6 @@
 from app import app
 from db import db
-from flask import render_template, redirect, request
+from flask import render_template, redirect, request, session
 import functions, users
 
 @app.route("/")
@@ -52,19 +52,27 @@ def send():
 
 @app.route("/new_conversation", methods=["POST"])
 def newConversation():
-    choises = request.form.getlist("choices")    
+    choises = request.form.getlist("choices")
     if len(choises) == 0:
         return redirect("/")
-    if functions.add_group(choises):
+    usernames = ",".join(choises) 
+    if functions.add_group(usernames):
         return redirect("/")
     return render_template("error.html", error="Ryhmän luonti ei onnistunut, samanlainen ryhmä voi olla jo olemassa")
 
 @app.route("/conversation", methods=["POST"])
 def conversation():
     members = request.form["group"]
+    who_receive = functions.get_group_id(members)
+    who_receive_s = str(who_receive).strip(",()")
+    session["receive"] = who_receive_s
     return redirect("/")
 
 @app.route("/messages", methods=["GET"])
 def messages():
+    all_messages = functions.get_messages()
+    all_users = users.get_users()
+    all_groups = functions.get_groups()
+    return render_template("messages.html", allMessages=all_messages, users=all_users, groups=all_groups)
     all_messages = functions.get_messages()
     return render_template("messages.html", allMessages=all_messages)
