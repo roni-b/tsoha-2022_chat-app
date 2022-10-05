@@ -5,10 +5,15 @@ import users
 from datetime import datetime, timedelta
 
 def get_messages():
-    sql = ("SELECT content, sent_at, user_id FROM messages WHERE groups_id=:groups_id;")
-    result = db.session.execute(sql, {"groups_id":session["receive"]})
-    return result.fetchall()
-
+    try:
+        sql = ("SELECT content, sent_at, user_id FROM messages WHERE groups_id=:groups_id;")
+        result = db.session.execute(sql, {"groups_id":session["receive"]})
+        return result.fetchall()
+    except:
+        sql = ("SELECT content, sent_at FROM messages;")
+        result = db.session.execute(sql)
+        return result.fetchall()
+        
 def get_messages2(user, group):
     #sql = ("SELECT content, sent_at, user_id FROM messages WHERE groups_id=:groups_id")
     pass
