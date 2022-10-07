@@ -6,21 +6,17 @@ from datetime import datetime, timedelta
 
 def get_messages():
     try:
-        sql = ("SELECT content, sent_at, user_id FROM messages WHERE groups_id=:groups_id;")
-        result = db.session.execute(sql, {"groups_id":session["receive"]})
+        sql = ("SELECT M.content, M.sent_at, U.username FROM messages AS M, users AS U, groupMembers AS G WHERE G.group_id=:groups_id AND G.member_id=:user_id AND M.user_id=U.id AND M.groups_id=:groups_id ORDER BY M.id")
+        result = db.session.execute(sql, {"groups_id":session["receive"], "user_id":session["user_id"]})
         return result.fetchall()
     except:
-        sql = ("SELECT content, sent_at FROM messages;")
+        sql = ("SELECT content, sent_at FROM messages WHERE groups_id=NULL;")
         result = db.session.execute(sql)
         return result.fetchall()
-        
-def get_messages2(user, group):
-    #sql = ("SELECT content, sent_at, user_id FROM messages WHERE groups_id=:groups_id")
-    pass
 
 def get_groups():
-    sql = ("SELECT name FROM groups;")
-    result = db.session.execute(sql)
+    sql = ("SELECT N.name FROM groups AS N, groupMembers AS G WHERE G.member_id=:user_id AND N.id=G.group_id;")
+    result = db.session.execute(sql, {"user_id":session["user_id"]})
     return result.fetchall()
 
 def get_group_id(members):
@@ -28,8 +24,14 @@ def get_group_id(members):
     result = db.session.execute(sql, {"name":members})
     return result.fetchone()
 
-def add_group(members):
+def get_group_name():
+    sql = ("SELECT name FROM groups WHERE id=:id")
+    result = db.session.execute(sql, {"id":session["receive"]})
+    return result.fetchone()
+
+def add_group(new_members):
     try:
+        members = session["username"]+","+new_members
         sql = ("INSERT INTO groups (name) VALUES (:name)")
         db.session.execute(sql, {"name":members})
         db.session.commit()
@@ -43,7 +45,7 @@ def add_group(members):
                 return False
         return True
     except:
-        #print("addgroup errorr") 
+        print("addgroup error") 
         return False
 
 def add_member(group_id, user_id):
@@ -55,30 +57,23 @@ def add_member(group_id, user_id):
         db.session.commit()
         return True
     except:
-        #print("addmembererror")
+        print("addmember error")
         return False
 
 def add_message(new):
     try:
         if session["csrf_token"] != request.form["csrf_token"]:
             return False
-        user_id = users.user_id()
-        if len(new) > 0:
-            dif = timedelta(hours=3)
-            now = datetime.now()
-            time = now + dif
-            try:
-                group_id = session["receive"]
-                sql = "INSERT INTO messages (content, sent_at, user_id, groups_id) VALUES (:new_message, :sent_at, :user_id, :groups_id)"
-                db.session.execute(sql, {"new_message":new, "sent_at":time, "user_id":user_id, "groups_id":group_id})
-                db.session.commit()
-                return True
-            except:
-                pass
-            return True
-        return False
+        group_id = session["receive"]
+        user_id = session["user_id"]
+        if not users.check_if_member(group_id):
+            return False
+        dif = timedelta(hours=3)
+        now = datetime.now()
+        time = now + dif
+        sql = "INSERT INTO messages (content, sent_at, user_id, groups_id) VALUES (:new_message, :sent_at, :user_id, :groups_id)"
+        db.session.execute(sql, {"new_message":new, "sent_at":time, "user_id":user_id, "groups_id":group_id})
+        db.session.commit()
+        return True
     except: 
         return False
-
-
-

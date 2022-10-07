@@ -1,4 +1,4 @@
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<me/registerta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> 
 <link rel="stylesheet" type="text/css" href="/static/custom.css">
 <title>{% block title %}Etusivu{% endblock %}</title>
@@ -10,9 +10,9 @@
         <br>
         <h3>Omat ryhmät</h3>
         {% for group in groups %}
-        <form action="/conversation" method="POST">
-          <input class="btn btn-link" name="group" value="{{group[0]}}" type="submit">
-        </form>
+            <form action="/conversation" method="POST">
+              <input class="btn btn-link" name="group" value="{{group[0]}}" type="submit">
+            </form>
         {% endfor %}
         <br>
         <h3>Käyttäjät</h3>
@@ -32,14 +32,16 @@
       {% endblock %}
         <div class="col-6">
             {% block content %}
+            {% if session.user_id %}
             <iframe class="viestit" src="/messages"></iframe>
             <br></br>
             <form action="/send" method="POST" onsubmit="return check(this)">
-                <textarea name="new_message"></textarea>
+                <textarea placeholder="Kirjoita viesti tähän" name="new_message"></textarea>
                 <br></br>
                 <input class="btn btn-primary btn-sm" type="submit" value="Lähetä">
                 <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
             </form>
+            {% endif %}
         </div>
         <div class="col">
             <br>

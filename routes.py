@@ -5,10 +5,12 @@ import functions, users
 
 @app.route("/")
 def index():
-    all_messages = functions.get_messages()
-    all_users = users.get_users()
-    all_groups = functions.get_groups()
-    return render_template("index.html", messages=all_messages, users=all_users, groups=all_groups)
+    try:
+        all_users = users.get_users()
+        all_groups = functions.get_groups()
+        return render_template("index.html", users=all_users, groups=all_groups)
+    except: 
+        return render_template("index.html")
 
 @app.route("/register", methods=["POST", "GET"])
 def register():
@@ -46,9 +48,11 @@ def send():
     new = request.form["new_message"]
     if len(new) > 100:
         return render_template("error.html", error="Viesti on liian pitkä")
+    if len(new) == 0:
+        return render_template("error.html", error="Viesti ei voi olla tyhjä")
     if functions.add_message(new):
         return redirect("/")
-    return render_template("error.html", error="Lähetys ei onnistunut")
+    return render_template("error.html", error="Lähetys ei onnistunut, todennäköisesti et ole ryhmän jäsen")
 
 @app.route("/new_conversation", methods=["POST"])
 def newConversation():
@@ -70,9 +74,5 @@ def conversation():
 
 @app.route("/messages", methods=["GET"])
 def messages():
-    all_messages = functions.get_messages()
-    all_users = users.get_users()
-    all_groups = functions.get_groups()
-    return render_template("messages.html", allMessages=all_messages, users=all_users, groups=all_groups)
     all_messages = functions.get_messages()
     return render_template("messages.html", allMessages=all_messages)

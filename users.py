@@ -26,27 +26,15 @@ def login(username, password):
         return False
 
 def logout():
-    del session["user_id"]
-    del session["username"]
-    del session["receive"]
-
-def user_id():
     try:
-        return session["user_id"]
+        del session["user_id"]
+        del session["username"]
     except:
-        return False
-
-def username():
+        return
     try:
-        return session["username"]
+        del session["receive"]
     except:
-        return False
-
-def admin():
-    try:
-        return session["admin"]
-    except:
-        return False
+        pass
 
 def get_users():
     sql = "SELECT username FROM users"
@@ -66,3 +54,12 @@ def get_user_id(username):
     sql = "SELECT id FROM users WHERE username=:username"
     result = db.session.execute(sql, {"username":username})
     return result.fetchone()
+
+def check_if_member(group_id):
+    user = session["user_id"]
+    sql = "SELECT * FROM groupMembers WHERE group_id=:group_id AND member_id=:user_id"
+    result = db.session.execute(sql, {"group_id":group_id, "user_id":user})
+    one_result = result.fetchone()
+    if one_result == None:
+        return False
+    return True
