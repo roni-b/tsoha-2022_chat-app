@@ -4,9 +4,6 @@
 <title>{% block title %}Etusivu{% endblock %}</title>
 <div class="container">
     {% block first %}
-    {% if not session.user_id %} 
-    <p>Aloita kirjautumalla sisään, voit rekisteröityä tai käyttää tunnusta 1234, jonka salasana on 1234.</p>
-    {% endif %}
     {% if session.user_id %} 
     <div class="row">
       <div class="col">

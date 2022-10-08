@@ -87,4 +87,21 @@ def exit_group():
     sql = ("DELETE FROM groupMembers WHERE member_id=:member_id AND group_id=:group_id")
     db.session.execute(sql, {"group_id":group_id, "member_id":user_id})
     db.session.commit()
+    update_group_name()
     del session["receive"]
+
+def update_group_name():
+    print("täällä")
+    group_id = session["receive"]
+    username = session["username"]
+    sql = ("SELECT name FROM groups WHERE id=:group_id")
+    result = db.session.execute(sql, {"group_id": group_id})
+    old = result.fetchone()
+    str_old = str(old)
+    new = str_old.replace(username, "")
+    strip_new = str(new).strip(",('')'")
+    sql = ("UPDATE groups SET name=:new WHERE id=:group_id")
+    db.session.execute(sql, {"new":strip_new, "group_id": group_id})
+    db.session.commit()
+
+
