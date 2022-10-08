@@ -19,7 +19,7 @@ CREATE TABLE groups (
 );
 
 CREATE TABLE groupMembers (
-    groups_id INTEGER REFERENCES groups,
+    group_id INTEGER REFERENCES groups,
     member_id INTEGER REFERENCES users
 );
 

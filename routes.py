@@ -1,3 +1,4 @@
+from crypt import methods
 from app import app
 from db import db
 from flask import render_template, redirect, request, session
@@ -64,8 +65,10 @@ def newConversation():
         return redirect("/")
     return render_template("error.html", error="Ryhmän luonti ei onnistunut, samanlainen ryhmä voi olla jo olemassa")
 
-@app.route("/conversation", methods=["POST"])
+@app.route("/conversation", methods=["POST", "GET"])
 def conversation():
+    if request.method == "GET":
+        print(request.form["delete_group"])
     members = request.form["group"]
     who_receive = functions.get_group_id(members)
     who_receive_s = str(who_receive).strip(",()")
@@ -76,3 +79,12 @@ def conversation():
 def messages():
     all_messages = functions.get_messages()
     return render_template("messages.html", allMessages=all_messages)
+
+@app.route("/edit_message", methods=["GET"])
+def delete_message():
+    return redirect("/")
+
+@app.route("/exit_group", methods=["GET"])
+def exit_group():
+    functions.exit_group()
+    return redirect("/")

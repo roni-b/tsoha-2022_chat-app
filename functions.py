@@ -77,3 +77,14 @@ def add_message(new):
         return True
     except: 
         return False
+
+def delete_message():
+    pass
+
+def exit_group():
+    group_id = session["receive"]
+    user_id = session["user_id"]
+    sql = ("DELETE FROM groupMembers WHERE member_id=:member_id AND group_id=:group_id")
+    db.session.execute(sql, {"group_id":group_id, "member_id":user_id})
+    db.session.commit()
+    del session["receive"]
