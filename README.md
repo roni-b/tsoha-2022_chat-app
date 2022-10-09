@@ -11,3 +11,6 @@ Sovellukseen voi rekisteröityä ja kirjautua sisään. Viestien lähetys ei vie
 <br><br>
 Seuraavaksi on tarkoitus tehdä: muiden keskeisten osa-alueiden toteutus, tarvittavat korjaukset ja koodin siistiminen, ulkoasun toteutus
 
+9.10 päivitys projektiin 
+
+Sovelluksen toiminnallisuus tällä hetkellä: sovelluksessa voi luoda viestiketjun/ryhmän käyttäjien välille ja käyttäjä voi halutessaan poistua ryhmästä. Sovelluksessa on hakutoiminto, jolla voi hakea viestejä hakusanalla (haku ei tosin jostain syystä toimi kunnolla Herokussa). Käyttäjä voi poistaa omia viestejä, mutta viestien muokkaaminen ei vielä toimi. Herokussa ohjelmaa voi testata luomalla tunnuksen tai kirjautumalla valmiilla tunnuksella (tunnus: 1234 salasana: 1234). Testaamista varten tietokantaan on lisätty muutama eri tunnus joiden välille voit luoda viestiketjun. 
