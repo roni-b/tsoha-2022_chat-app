@@ -34,6 +34,8 @@ def login():
     if request.method == "POST":
         username = request.form["username"]
         password = request.form["password"]
+        if len(username) == 0 or len(password) == 0:
+            return render_template("error.html", error="Tunnus tai salasana ei voi olla tyhjä")
         if users.login(username, password):
             return redirect("/")
         return render_template("error.html", error="Väärä tunnus tai salasana")
