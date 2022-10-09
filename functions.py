@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 def get_messages():
     try:
-        sql = ("SELECT M.content, M.sent_at, U.username FROM messages AS M, users AS U, groupMembers AS G WHERE G.group_id=:groups_id AND G.member_id=:user_id AND M.user_id=U.id AND M.groups_id=:groups_id ORDER BY M.id")
+        sql = ("SELECT M.id, M.content, M.sent_at, U.username FROM messages AS M, users AS U, groupMembers AS G WHERE G.group_id=:groups_id AND G.member_id=:user_id AND M.user_id=U.id AND M.groups_id=:groups_id ORDER BY M.id")
         result = db.session.execute(sql, {"groups_id":session["receive"], "user_id":session["user_id"]})
         return result.fetchall()
     except:
@@ -78,7 +78,14 @@ def add_message(new):
     except: 
         return False
 
-def delete_message():
+def delete_message(id):
+    sql = ("DELETE FROM messages WHERE id=:id")
+    db.session.execute(sql, {"id": id})
+    db.session.commit()
+    return True
+
+def edit_message(id):
+    #sql = ("UPDATE messages SET content ")
     pass
 
 def exit_group():
@@ -91,7 +98,6 @@ def exit_group():
     del session["receive"]
 
 def update_group_name():
-    print("täällä")
     group_id = session["receive"]
     username = session["username"]
     sql = ("SELECT name FROM groups WHERE id=:group_id")
@@ -104,4 +110,8 @@ def update_group_name():
     db.session.execute(sql, {"new":strip_new, "group_id": group_id})
     db.session.commit()
 
-
+def search(query):
+    sql = "SELECT content, sent_at, user_id FROM messages WHERE content LIKE UPPER(:query) or content LIKE LOWER(:query)"
+    result = db.session.execute(sql, {"query":"%"+query+"%"})
+    results = result.fetchall()
+    return results

@@ -52,7 +52,7 @@ def send():
         return render_template("error.html", error="Viesti ei voi olla tyhjä")
     if functions.add_message(new):
         return redirect("/")
-    return render_template("error.html", error="Lähetys ei onnistunut, todennäköisesti et ole ryhmän jäsen")
+    return render_template("error.html", error="Lähetys ei onnistunut, todennäköisesti et ole ryhmän jäsen tai et ole valinnut ryhmää")
 
 @app.route("/new_conversation", methods=["POST"])
 def newConversation():
@@ -74,16 +74,31 @@ def conversation():
     session["receive"] = who_receive_s
     return redirect("/")
 
-@app.route("/messages", methods=["GET"])
+@app.route("/messages")
 def messages():
+    try:
+        query = request.args["edit"]
+        id = request.args["id"]
+        username = request.args["username"]
+        if username != session["username"]:
+            return redirect("/")
+        if query[0] == "P":
+            functions.delete_message(id)
+        functions.edit_message(id)
+    except: 
+        pass
     all_messages = functions.get_messages()
     return render_template("messages.html", allMessages=all_messages)
 
-@app.route("/edit_message", methods=["GET"])
-def delete_message():
-    return redirect("/")
-
-@app.route("/exit_group", methods=["GET"])
+@app.route("/exit_group")
 def exit_group():
     functions.exit_group()
     return redirect("/")
+
+@app.route("/search")
+def search():
+    query = request.args["query"]
+    results = functions.search(query)
+    if len(results) > 0:
+        return render_template("results.html", results=results)
+    return render_template("error.html", error="Ei tuloksia hakusanalla")

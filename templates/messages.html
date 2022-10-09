@@ -2,12 +2,21 @@
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"> 
 <link rel="stylesheet" type="text/css" href="/static/custom.css">
 
+<div class="show_messages">
 {% for message in allMessages %}
-<b>{{message[2]}}</b>
+<b>{{message[3]}}</b>
 <br>
-{{message[0]}}
+{{message[1]}}
 <br>
-<b>{{message[1].strftime("%d.%m %H:%M")}}</b>
-<br>
+<b>{{message[2].strftime("%d.%m %H:%M")}}</b>
+{% if session.username == message[3] %}
+<form action="/messages" method="GET" class="edit">
+    <input type="submit" class="btn btn-outline-secondary btn-sm" value="Muokkaa viestiä" name="edit">
+    <input type="submit" class="btn btn-outline-danger btn-sm" value="Poista viesti" name="edit">
+    <input type="hidden" name="id" value="{{message[0]}}">
+    <input type="hidden" name="username" value="{{message[3]}}">
+</form>
+{% endif %}
 <hr>
 {% endfor %}
+</div>

@@ -38,7 +38,7 @@
         <div class="col-6">
             {% block content %}
             {% if session.user_id %}
-            <iframe class="viestit" src="/messages"></iframe>
+            <iframe class="messages" src="/messages"></iframe>
             <br></br>
             <form action="/send" method="POST" onsubmit="return check(this)">
                 <textarea placeholder="Kirjoita viesti tähän" name="new_message"></textarea>
@@ -54,6 +54,12 @@
             <p>Olet kirjautunut nimellä {{ session.username }}</p>
             <a href="/logout">Kirjaudu ulos</a>
             <br>
+            {% if session.receive %}
+            <form action="/search" method="GET"> 
+              <input class="search" type="text" name="query">
+              <input class="btn btn-primary btn-sm" type="submit" value="Etsi viestiä">
+            </form>
+            {% endif %}
             {% else %}
             <nav class="navbar navbar-expand-sm navbar-primary">
                 <ul class="navbar-nav">

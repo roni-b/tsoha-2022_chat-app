@@ -1,0 +1,15 @@
+{% extends "index.html" %}
+{% block title %}Haun tulokset{% endblock %}
+{% block first %}
+{% endblock %}
+{% block content %}
+{% for result in results %}
+{{result[0]}}
+<br>
+<b>{{result[1].strftime("%d.%m.%y %H:%M")}}</b>
+<br>
+<hr>
+{% endfor %}
+<a href="/">Etusivulle</a>
+{% endblock %}
+
