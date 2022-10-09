@@ -1,7 +1,5 @@
-/* remove rounding from cards, buttons and inputs */
 .card, .btn, .form-control { 
     border-radius: .3em;
-
 }
 .col-6 {
     background: ghostwhite;
@@ -15,12 +13,11 @@
     margin-left: .5em;
     margin-right: .5em;
 }
-.viestit {
-    background: white;
+.messages {
+    background: ghostwhite;
     height: 100%;
     width: 100%;
     border: none;
-    border-radius: .5em;
 }
 textarea {
     resize: none;
@@ -29,4 +26,14 @@ textarea {
 }
 body {
     background-color: rgb(255, 255, 255);
+}
+.search {
+    border-radius: .5em;
+    border: none;
+    margin-top: .5em;
+    margin-bottom: .5em;
+}
+.show_messages {
+    margin-left: .5em;
+    margin-right: .5em;
 }
