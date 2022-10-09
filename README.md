@@ -13,4 +13,6 @@ Seuraavaksi on tarkoitus tehdä: muiden keskeisten osa-alueiden toteutus, tarvit
 
 <b>9.10 päivitys projektiin</b>
 
-Sovelluksen toiminnallisuus tällä hetkellä: sovelluksessa voi luoda viestiketjun/ryhmän käyttäjien välille ja käyttäjä voi halutessaan poistua ryhmästä. Sovelluksessa on hakutoiminto, jolla voi hakea viestejä hakusanalla (haku ei tosin jostain syystä toimi kunnolla Herokussa). Käyttäjä voi poistaa omia viestejä, mutta viestien muokkaaminen ei vielä toimi. Herokussa ohjelmaa voi testata luomalla tunnuksen tai kirjautumalla valmiilla tunnuksella (tunnus: 1234 salasana: 1234). Testaamista varten tietokantaan on lisätty muutama eri tunnus joiden välille voit luoda viestiketjun. 
+Sovelluksen toiminnallisuus tällä hetkellä: sovelluksessa voi luoda viestiketjun/ryhmän käyttäjien välille ja käyttäjä voi halutessaan poistua ryhmästä. Sovelluksessa on hakutoiminto, jolla voi hakea viestejä hakusanalla (haku ei tosin jostain syystä toimi kunnolla Herokussa). 
+<br></br>
+Käyttäjä voi poistaa omia viestejä, mutta viestien muokkaaminen ei vielä toimi. Herokussa ohjelmaa voi testata luomalla tunnuksen tai kirjautumalla valmiilla tunnuksella (tunnus: 1234 salasana: 1234). Testaamista varten tietokantaan on lisätty muutama eri tunnus joiden välille voit luoda viestiketjun. 
