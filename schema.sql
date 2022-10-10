@@ -2,7 +2,7 @@ CREATE TABLE users (
     id SERIAL PRIMARY KEY,
     password TEXT,
     username TEXT UNIQUE,
-    admin TEXT
+    admin BOOLEAN
 );
 
 CREATE TABLE messages (
