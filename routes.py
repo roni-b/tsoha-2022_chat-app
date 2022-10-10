@@ -99,6 +99,10 @@ def exit_group():
 
 @app.route("/search")
 def search():
+    try:
+        session["user_id"]
+    except:
+        return render_template("error.html", error="Et ole kirjautunut")
     query = request.args["query"]
     results = functions.search(query)
     if len(results) > 0:
