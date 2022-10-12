@@ -79,16 +79,34 @@ def conversation():
 @app.route("/messages")
 def messages():
     try:
-        query = request.args["edit"]
+        query = request.args["message_edited"]
         id = request.args["id"]
         username = request.args["username"]
         if username != session["username"]:
             return redirect("/")
-        if query[0] == "P":
-            functions.delete_message(id)
-        functions.edit_message(id)
-    except: 
-        pass
+        if len(query) > 0:
+            functions.edit_message(id, query)
+    except:
+        try:
+            id = request.args["id"]
+            query = request.args["rate"]
+            if query[0] == "R":
+                functions.report(id)
+            if query[0] == "T":
+                functions.vote(True, id)
+            if query[0] == "Ä":
+                functions.vote(False, id)
+        except: 
+            try:
+                query = request.args["delete"]
+                id = request.args["id"]
+                username = request.args["username"]
+                if username != session["username"]:
+                    return redirect("/")
+                functions.delete_message(id)
+            except:
+                pass
+
     all_messages = functions.get_messages()
     return render_template("messages.html", allMessages=all_messages)
 

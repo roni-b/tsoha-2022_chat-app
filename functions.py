@@ -45,7 +45,6 @@ def add_group(new_members):
                 return False
         return True
     except:
-        print("addgroup error") 
         return False
 
 def add_member(group_id, user_id):
@@ -57,7 +56,6 @@ def add_member(group_id, user_id):
         db.session.commit()
         return True
     except:
-        print("addmember error")
         return False
 
 def add_message(new):
@@ -78,15 +76,24 @@ def add_message(new):
     except: 
         return False
 
+def add_message_for_all(new):
+    dif = timedelta(hours=3)
+    now = datetime.now()
+    time = now + dif
+    sql = "INSERT INTO publicMessages (content, sent_at) VALUES (:content, :sent_at)"
+    db.session.execute(sql, {"content": new, "sent_at": time})
+    db.session.commit()
+
 def delete_message(id):
     sql = ("DELETE FROM messages WHERE id=:id")
     db.session.execute(sql, {"id": id})
     db.session.commit()
     return True
 
-def edit_message(id):
-    #sql = ("UPDATE messages SET content ")
-    pass
+def edit_message(id, new):
+    sql = "UPDATE messages SET content=:new WHERE id=:id"
+    db.session.execute(sql, {"new": new, "id": id})
+    db.session.commit()
 
 def exit_group():
     group_id = session["receive"]
@@ -111,7 +118,36 @@ def update_group_name():
     db.session.commit()
 
 def search(query):
-    sql = "SELECT content, sent_at, user_id FROM messages WHERE content LIKE UPPER(:query) or content LIKE LOWER(:query)"
+    #for i in range(len(query)+1):
+        #print(query[0:i])
+    sql = "SELECT content, sent_at, user_id FROM messages WHERE content LIKE UPPER(:query) or content LIKE LOWER(:query) or content LIKE :query"
     result = db.session.execute(sql, {"query":"%"+query+"%"})
     results = result.fetchall()
     return results
+
+def vote(rate, id):
+    sql = "SELECT message_id FROM messageRatings WHERE message_id=:message_id"
+    result = db.session.execute(sql, {"message_id": id})
+    if result.fetchone() == None:
+        sql = "INSERT INTO messageRatings (message_id) VALUES (:message_id)"
+        db.session.execute(sql, {"message_id": id})
+        db.session.commit()
+    if rate:
+        sql = "UPDATE messageRatings SET likes=likes+1 WHERE message_id=:message_id"
+        db.session.execute(sql, {"message_id": id})
+        db.session.commit()
+    if not rate:
+        sql = "UPDATE messageRatings SET dislikes=dislikes+1 WHERE message_id=:message_id"
+        db.session.execute(sql, {"message_id": id})
+        db.session.commit()
+
+def report(id):
+    sql = "SELECT message_id FROM reports WHERE message_id=:message_id"
+    result = db.session.execute(sql, {"message_id": id})
+    if result.fetchone() == None:
+        sql = "INSERT INTO reports (message_id) VALUES (:message_id)"
+        db.session.execute(sql, {"message_id": id})
+        db.session.commit()
+    sql = "UPDATE reports SET report_count=report_count+1 WHERE message_id=:message_id"
+    db.session.execute(sql, {"message_id": id})
+    db.session.commit()
