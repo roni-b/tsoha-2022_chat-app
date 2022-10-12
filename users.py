@@ -29,6 +29,7 @@ def logout():
     try:
         del session["user_id"]
         del session["username"]
+        del session["csrf_token"]
     except:
         return
     try:
