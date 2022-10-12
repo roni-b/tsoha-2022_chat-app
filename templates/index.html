@@ -56,7 +56,7 @@
             <br>
             {% if session.receive %}
             <form action="/search" method="GET"> 
-              <input class="search" type="text" name="query">
+              <input class="search" type="text" name="query" placeholder="Kirjoita hakusana tähän">
               <input class="btn btn-primary btn-sm" type="submit" value="Etsi viestiä">
             </form>
             {% endif %}
@@ -88,4 +88,4 @@
         }
         return true;
     }
-    </script>
+  </script>
