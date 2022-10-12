@@ -37,3 +37,9 @@ body {
     margin-left: .5em;
     margin-right: .5em;
 }
+.card-body{
+    margin-top: .5em;
+    border-radius: 0%;
+    padding: 0%;
+    border: none;
+}
