@@ -11,12 +11,12 @@
 <b>{{message[2].strftime("%d.%m %H:%M")}}</b>
 {% if session.username == message[3] %}
 <form action="/messages" method="GET" class="edit">
-    <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapse1" aria-expanded="false" aria-controls="collapseExample">Muokkaa viestiä</button>
+    <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#first-{{message[0]}}" aria-expanded="false" aria-controls="#first-{{message[0]}}" name="testi">Muokkaa viestiä</button>
     <input type="submit" class="btn btn-outline-danger btn-sm" value="Poista viesti" name="delete">
     <input type="hidden" name="id" value="{{message[0]}}">
     <input type="hidden" name="username" value="{{message[3]}}">
 </form>
-<div class="collapse" id="collapse1">
+<div class="collapse" id="first-{{message[0]}}">
     <div class="card card-body">
         <form action="/messages" method="GET" class="edit">
             <textarea placeholder="Kirjoita uusi viesti" name="message_edited"></textarea>
@@ -28,8 +28,8 @@
 </div>
 {% else %}
 <br>
-<button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#collapse2" aria-expanded="false" aria-controls="collapseExample">Toiminnot</button>
-<div class="collapse" id="collapse2">
+<button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#second-{{message[0]}}" aria-expanded="false" aria-controls="second-{{message[0]}}">Toiminnot</button>
+<div class="collapse" id="second-{{message[0]}}">
     <div class="card card-body">
         <form action="/messages" method="GET" class="rate">
             <input type="submit" class="btn btn-success btn-sm" value="Tykkää" name="rate">
@@ -43,7 +43,6 @@
 <hr>
 {% endfor %}
 </div>
-
 
 
 
