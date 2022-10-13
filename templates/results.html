@@ -1,8 +1,6 @@
 {% extends "index.html" %}
 {% block title %}Haun tulokset{% endblock %}
 {% block first %}
-{% endblock %}
-{% block content %}
 {% for result in results %}
 {{result[0]}}
 <br>
@@ -12,4 +10,3 @@
 {% endfor %}
 <a href="/">Etusivulle</a>
 {% endblock %}
-
