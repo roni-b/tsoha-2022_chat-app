@@ -3,81 +3,78 @@
 <link rel="stylesheet" type="text/css" href="/static/custom.css">
 <title>{% block title %}Etusivu{% endblock %}</title>
 <div class="container">
-    {% block first %}
-    {% if session.user_id %} 
     <div class="row">
-      <div class="col">
-        <br></br>
-        <h3>Omat ryhmät</h3>
-        {% for group in groups %}
-            <form action="/conversation" method="POST">
-              <input class="btn btn-primary btn-sm" name="group" value="{{group[0]}}" type="submit">
-            </form>
-        {% endfor %}
-        {% if session.receive%}
-          <form action="/exit_group" method="GET">
-            <input class="btn btn-danger btn-sm" value="Poistu nykyisestä ryhmästä" type="submit">
-          </form>
-        {% endif %}
-        <br></br>
-        <h3>Käyttäjät</h3>
-        <form action="/new_conversation" method="POST">
-        {% for user in users %}
-        {% if user[0] != session.username%}
-          {{user[0]}}
-          <input type="checkbox" name="choices" value={{user[0]}}>
-        <br>
-        {% endif %}
-        {% endfor %}
-        <br>
-          <input class="btn btn-primary" type="submit" value="Luo viestiketju">
+      <div class="col-8">
+      {% block first %}
+      {% if session.user_id %} 
+        <div class="embed-responsive embed-responsive-1by1">
+          <iframe class="embed-responsive-item" src="/messages"></iframe>
+        </div>
+        <form action="/send" method="POST" onsubmit="return check(this)">
+          <div class="form-group">
+            <textarea class="form-control" id="message_textarea" placeholder="Kirjoita viesti tähän" name="new_message" rows="2"></textarea>
+            <input class="btn btn-primary btn-sm" type="submit" value="Lähetä">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+          </div>
         </form>
-      </div>
+      {% else %}
+        <nav class="navbar navbar-expand-sm navbar-primary">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Kirjaudu</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register">Rekisteröidy</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="https://github.com/roni-b/tsoha-2022_chat-app">tsoha-2022_chat-app - GitHub</a>
+            </li>
+          </ul>
+        </nav>
       {% endif %}
       {% endblock %}
-        <div class="col-6">
-            {% block content %}
-            {% if session.user_id %}
-            <iframe class="messages" src="/messages"></iframe>
-            <br></br>
-            <form action="/send" method="POST" onsubmit="return check(this)">
-                <textarea placeholder="Kirjoita viesti tähän" name="new_message"></textarea>
-                <br></br>
-                <input class="btn btn-primary btn-sm" type="submit" value="Lähetä">
-                <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
-            </form>
-            {% endif %}
+      </div>
+
+      <div class="col-4">
+      {% block second %}
+      {% if session.user_id %}
+        <div class="testi">
+        <h3>Omat ryhmät</h3>
+      {% for group in groups %}
+        <form action="/conversation" method="POST">
+          <input class="btn btn-primary btn-sm" name="group" value="{{group[0]}}" type="submit">
+        </form>
+      {% endfor %}
+      {% if session.receive %}
+        <form action="/exit_group" method="GET">
+          <input class="btn btn-danger btn-sm" value="Poistu nykyisestä ryhmästä" type="submit">
+        </form>
+      {% endif %}
         </div>
-        <div class="col">
-            <br>
-            {% if session.user_id %}
-            <p>Olet kirjautunut nimellä {{ session.username }}</p>
-            <a href="/logout">Kirjaudu ulos</a>
-            <br>
-            {% if session.receive %}
-            <form action="/search" method="GET"> 
-              <input class="search" type="text" name="query" placeholder="Kirjoita hakusana tähän">
-              <input class="btn btn-primary btn-sm" type="submit" value="Etsi viestiä">
-            </form>
-            {% endif %}
-            {% else %}
-            <nav class="navbar navbar-expand-sm navbar-primary">
-                <ul class="navbar-nav">
-                  <li class="nav-item">
-                    <a class="nav-link" href="/login">Kirjaudu</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="/register">Rekisteröidy</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" href="https://github.com/roni-b/tsoha-2022_chat-app">tsoha-2022_chat-app - GitHub</a>
-                  </li>
-                </ul>
-              </nav>
-            {% endif %}
-            {% endblock %}
-            {{error}}
-        </div>
+        <div class="testi2">
+        <h3>Käyttäjät</h3>
+        <form action="/new_conversation" method="POST">
+      {% for user in users %}
+      {% if user[0] != session.username%}
+      {{user[0]}}
+          <input type="checkbox" name="choices" value={{user[0]}}>
+      {% endif %}
+      {% endfor %}
+          <input class="btn btn-primary btn-sm" type="submit" value="Luo viestiketju">
+        </form>
+        <form action="/search" method="GET">
+          <div class="form-group">
+            <label for="search_bar">Hae viesteistä</label>
+            <input class="form-control" type="text" name="query" id="search_bar">
+          </div>
+          <input class="btn btn-primary btn-sm" type="submit" value="Etsi viestiä">
+        </form>
+          </div>
+        <p>Olet kirjautunut nimellä {{ session.username }}</p>
+        <a href="/logout">Kirjaudu ulos</a>
+      {% endif %}
+      {% endblock %}
+      </div>
     </div>
 </div>
 
@@ -88,6 +85,5 @@
             return false;
         }
         return true;
-    }
+    } 
   </script>
-

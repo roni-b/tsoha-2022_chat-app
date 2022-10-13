@@ -1,37 +1,14 @@
 .card, .btn, .form-control { 
     border-radius: .3em;
 }
-.col-6 {
-    background: ghostwhite;
-    margin-top: .5em;
-    border-radius: .5em;
-}
-.col {
-    background: ghostwhite;
-    margin-top: .5em;
-    border-radius: 20px;
-    margin-left: .5em;
-    margin-right: .5em;
-}
-.messages {
-    background: ghostwhite;
-    height: 100%;
-    width: 100%;
-    border: none;
-}
 textarea {
     resize: none;
     width: 100%;
     border-radius: .5em;
 }
-body {
-    background-color: rgb(255, 255, 255);
-}
 .search {
     border-radius: .5em;
     border: none;
-    margin-top: .5em;
-    margin-bottom: .5em;
 }
 .show_messages {
     margin-left: .5em;
