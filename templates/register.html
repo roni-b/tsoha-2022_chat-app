@@ -1,13 +1,12 @@
 {% extends "index.html" %}
 {% block title %}Rekisteröityminen{% endblock %}
 {% block content %}
-<br>
-<p>Rekisteröi uusi tunnus:</p>
-<form action="/register" method="POST">
-    <p>Tunnus:<br>
-    <input type="text" name="username"></p>
-    <p>Salasana:<br>
-    <input type="password" name="password"></p>
+<h4>Rekisteröidy</h4>
+<form action="/login" class="form-group" method="POST">
+    <label for="input-user">Käyttäjätunnus</label>
+    <input type="text" class="form-control" id="input-user" name="username"></p>
+    <label for="input-password">Salasana</label>
+    <input type="password" class="form-control" id="input-password" name="password"></p>
     <input class="btn btn-primary btn-sm" type="submit" value="Rekisteröidy">
 </form>
 <a href="/">Etusivulle</a> 
