@@ -10,8 +10,8 @@ def get_messages():
         result = db.session.execute(sql, {"groups_id":session["receive"], "user_id":session["user_id"]})
         return result.fetchall()
     except:
-        sql = ("SELECT content, sent_at FROM messages WHERE groups_id=NULL;")
-        result = db.session.execute(sql)
+        sql = ("SELECT M.id, M.content, M.sent_at, U.username FROM messages AS M, users AS U, groupMembers AS G WHERE G.member_id=:user_id AND M.user_id=U.id ORDER BY M.id")
+        result = db.session.execute(sql, {"user_id":session["user_id"]})
         return result.fetchall()
 
 def get_groups():
@@ -140,6 +140,12 @@ def vote(rate, id):
         sql = "UPDATE messageRatings SET dislikes=dislikes+1 WHERE message_id=:message_id"
         db.session.execute(sql, {"message_id": id})
         db.session.commit()
+
+def get_votes(id):
+    sql = "SELECT likes, dislikes FROM messageRatings WHERE message_id=:id"
+    result = db.session.execute(sql, {"id": id})
+    results = result.fetchall()
+    return results
 
 def report(id):
     sql = "SELECT message_id FROM reports WHERE message_id=:message_id"
