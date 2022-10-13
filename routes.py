@@ -59,6 +59,8 @@ def send():
 @app.route("/new_conversation", methods=["POST"])
 def newConversation():
     choises = request.form.getlist("choices")
+    if session["username"] in choises:
+        return render_template("error.html", error="Et voi lisätä itseäsi kahdesti samaan ryhmään tai olla ainoa jäsen")
     if len(choises) == 0:
         return redirect("/")
     usernames = ",".join(choises) 
@@ -84,7 +86,7 @@ def messages():
         username = request.args["username"]
         if username != session["username"]:
             return redirect("/")
-        if len(query) > 0:
+        if len(query) > 0 and len(query) < 100:
             functions.edit_message(id, query)
     except:
         try:
@@ -106,7 +108,6 @@ def messages():
                 functions.delete_message(id)
             except:
                 pass
-
     all_messages = functions.get_messages()
     return render_template("messages.html", allMessages=all_messages)
 
@@ -126,3 +127,4 @@ def search():
     if len(results) > 0:
         return render_template("results.html", results=results)
     return render_template("error.html", error="Ei tuloksia hakusanalla")
+
