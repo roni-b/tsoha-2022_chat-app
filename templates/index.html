@@ -39,7 +39,7 @@
       <div class="col-sm-4">
       {% block second %}
       {% if session.user_id %}
-        <div class="testi">
+        <div class="grp">
         <h3>Omat ryhmät</h3>
       {% for group in groups %}
         <form action="/conversation" method="POST">
@@ -52,7 +52,7 @@
         </form>
       {% endif %}
         </div>
-        <div class="testi2">
+        <div class="usr">
         <h3>Käyttäjät</h3>
         <form action="/new_conversation" method="POST">
       {% for user in users %}

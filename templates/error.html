@@ -1,6 +1,8 @@
 {% extends "index.html" %}
 {% block title %}Virhe{% endblock %}
 {% block first %}
-<p>{{error}}</p>
+<div class="alert alert-warning" role="alert"><strong>Virhe:</strong> {{error}}</div>
 <a href="/">Etusivulle</a>
+{% endblock %}
+{% block second %}
 {% endblock %}
