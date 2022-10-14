@@ -2,6 +2,7 @@
     border-radius: .3em;
 }
 textarea {
+    margin-top: .5em;
     resize: none;
     width: 100%;
     border-radius: .5em;
@@ -14,9 +15,15 @@ textarea {
     margin-left: .5em;
     margin-right: .5em;
 }
-.card-body{
+.card-body {
     margin-top: .5em;
     border-radius: 0%;
     padding: 0%;
     border: none;
+}
+.col-sm-8 {
+    margin-top: .5em;
+}
+.col-sm-4 {
+    margin-top: .5em;
 }

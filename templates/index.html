@@ -6,18 +6,19 @@
     <div class="row">
       <div class="col-sm-8">
       {% block first %}
-      {% if session.user_id %} 
+      {% if session.user_id and session.receive %} 
         <div class="embed-responsive embed-responsive-1by1">
           <iframe class="embed-responsive-item" src="/messages"></iframe>
         </div>
         <form action="/send" method="POST" onsubmit="return check(this)">
           <div class="form-group">
             <textarea class="form-control" id="message_textarea" placeholder="Kirjoita viesti tähän" name="new_message" rows="2"></textarea>
-            <input class="btn btn-primary btn-sm" type="submit" value="Lähetä">
             <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
           </div>
+          <input class="btn btn-primary btn-sm" type="submit" value="Lähetä">
         </form>
-      {% else %}
+      {% endif %}
+      {% if not session.user_id %}
         <nav class="navbar navbar-expand-sm navbar-primary">
           <ul class="navbar-nav">
             <li class="nav-item">
