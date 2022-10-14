@@ -4,7 +4,7 @@
 <title>{% block title %}Etusivu{% endblock %}</title>
 <div class="container">
     <div class="row">
-      <div class="col-8">
+      <div class="col-sm-8">
       {% block first %}
       {% if session.user_id %} 
         <div class="embed-responsive embed-responsive-1by1">
@@ -35,7 +35,7 @@
       {% endblock %}
       </div>
 
-      <div class="col-4">
+      <div class="col-sm-4">
       {% block second %}
       {% if session.user_id %}
         <div class="testi">
