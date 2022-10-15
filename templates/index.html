@@ -73,8 +73,10 @@
           <input class="btn btn-primary btn-sm" type="submit" value="Etsi viestiä">
         </form>
           </div>
-        <p>Olet kirjautunut nimellä {{ session.username }}</p>
-        <a href="/logout">Kirjaudu ulos</a>
+        <div class="lgn">
+          <p>Olet kirjautunut nimellä {{ session.username }}</p>
+          <a href="/logout">Kirjaudu ulos</a>
+        </div>
       {% endif %}
       {% endblock %}
       </div>
