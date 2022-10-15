@@ -16,3 +16,7 @@ Seuraavaksi on tarkoitus tehdä: muiden keskeisten osa-alueiden toteutus, tarvit
 Sovelluksen toiminnallisuus tällä hetkellä: sovelluksessa voi luoda viestiketjun/ryhmän käyttäjien välille ja käyttäjä voi halutessaan poistua ryhmästä. Sovelluksessa on hakutoiminto, jolla voi hakea viestejä hakusanalla.
 <br></br>
 Käyttäjä voi poistaa omia viestejä, mutta viestien muokkaaminen ei vielä toimi. Herokussa ohjelmaa voi testata luomalla tunnuksen tai kirjautumalla valmiilla tunnuksella (tunnus: 1234 salasana: 1234). Testaamista varten tietokantaan on lisätty muutama eri tunnus joiden välille voit luoda viestiketjun. 
+
+<b>14.10 päivitys projektiin</b>
+
+Omien viestien muokkaaminen on nyt mahdollista ja toisten käyttäjien viestejä voi äänestää ylös tai alas tykkäyksillä sekä asiattomat viestit voi raportoida.    
