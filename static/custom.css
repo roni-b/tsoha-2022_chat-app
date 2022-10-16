@@ -1,5 +1,6 @@
 .card, .btn, .form-control { 
     border-radius: .3em;
+    max-width: 100%;
 }
 textarea {
     margin-top: .5em;
@@ -24,7 +25,7 @@ textarea {
 .col-sm-8 {
     margin-top: .5em;
 }
-.col-md-auto {
+.col-sm-4-auto {
     margin-top: .5em;
 }
 .grp {
