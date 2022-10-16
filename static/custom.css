@@ -1,5 +1,6 @@
 .card, .btn, .form-control { 
     border-radius: .3em;
+    max-width: 100%;
 }
 textarea {
     margin-top: .5em;
