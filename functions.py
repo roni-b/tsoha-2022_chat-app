@@ -84,11 +84,15 @@ def add_message_for_all(new):
     db.session.execute(sql, {"content": new, "sent_at": time})
     db.session.commit()
 
+def get_public_messages():
+    sql = "SELECT * FROM publicMessages"
+    result = db.session.execute(sql)
+    return result.fetchall()
+
 def delete_message(id):
     sql = ("DELETE FROM messages WHERE id=:id")
     db.session.execute(sql, {"id": id})
     db.session.commit()
-    return True
 
 def edit_message(id, new):
     sql = "UPDATE messages SET content=:new WHERE id=:id"
@@ -118,12 +122,14 @@ def update_group_name():
     db.session.commit()
 
 def search(query):
-    #for i in range(len(query)+1):
-        #print(query[0:i])
-    sql = "SELECT content, sent_at, user_id FROM messages WHERE content LIKE UPPER(:query) or content LIKE LOWER(:query) or content LIKE :query"
-    result = db.session.execute(sql, {"query":"%"+query+"%"})
-    results = result.fetchall()
-    return results
+    sql = ("SELECT M.content, M.sent_at, U.username FROM users AS U, messages AS M, groupMembers AS G, groups AS R WHERE G.member_id=:user_id AND R.id=G.group_id AND M.groups_id=G.group_id AND U.id=M.user_id ORDER BY M.id;")
+    result = db.session.execute(sql, {"query":"%"+query+"%", "user_id": session["user_id"]})
+    sql_results = result.fetchall()
+    proper_results = []
+    for result in sql_results:
+        if query.lower() in result[0].lower():
+            proper_results.append(result)
+    return proper_results
 
 def vote(rate, id):
     sql = "SELECT message_id FROM messageRatings WHERE message_id=:message_id"

@@ -2,6 +2,8 @@
 {% block title %}Haun tulokset{% endblock %}
 {% block first %}
 {% for result in results %}
+<b>{{result[2]}}</b>
+<br>
 {{result[0]}}
 <br>
 <b>{{result[1].strftime("%d.%m.%y %H:%M")}}</b>
