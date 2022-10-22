@@ -6,7 +6,7 @@ from datetime import datetime, timedelta
 
 def get_messages():
     try:
-        sql = ("SELECT M.id, M.content, M.sent_at, U.username FROM messages AS M, users AS U, groupMembers AS G WHERE G.group_id=:groups_id AND G.member_id=:user_id AND M.user_id=U.id AND M.groups_id=:groups_id ORDER BY M.id")
+        sql = ("SELECT M.id, M.content, M.sent_at, U.username, R.name FROM messages AS M, users AS U, groupMembers AS G, groups AS R WHERE G.group_id=:groups_id AND G.member_id=:user_id AND M.user_id=U.id AND M.groups_id=:groups_id AND R.id=:groups_id ORDER BY M.id")
         result = db.session.execute(sql, {"groups_id":session["receive"], "user_id":session["user_id"]})
         return result.fetchall()
     except:
@@ -15,7 +15,7 @@ def get_messages():
         return result.fetchall()
 
 def get_groups():
-    sql = ("SELECT N.name FROM groups AS N, groupMembers AS G WHERE G.member_id=:user_id AND N.id=G.group_id;")
+    sql = ("SELECT N.name, N.id FROM groups AS N, groupMembers AS G WHERE G.member_id=:user_id AND N.id=G.group_id;")
     result = db.session.execute(sql, {"user_id":session["user_id"]})
     return result.fetchall()
 
@@ -99,7 +99,7 @@ def edit_message(id, new):
     db.session.execute(sql, {"new": new, "id": id})
     db.session.commit()
 
-def exit_group():
+def exit_group(): 
     group_id = session["receive"]
     user_id = session["user_id"]
     sql = ("DELETE FROM groupMembers WHERE member_id=:member_id AND group_id=:group_id")
@@ -107,7 +107,7 @@ def exit_group():
     db.session.commit()
     update_group_name()
     del session["receive"]
-
+    
 def update_group_name():
     group_id = session["receive"]
     username = session["username"]
@@ -117,13 +117,15 @@ def update_group_name():
     str_old = str(old)
     new = str_old.replace(username, "")
     strip_new = str(new).strip(",('')'")
+    sql = ("SELECT name FROM groups WHERE name=:name")
+    result = db.session.execute(sql, {"name":strip_new})
     sql = ("UPDATE groups SET name=:new WHERE id=:group_id")
     db.session.execute(sql, {"new":strip_new, "group_id": group_id})
     db.session.commit()
 
 def search(query):
     sql = ("SELECT M.content, M.sent_at, U.username FROM users AS U, messages AS M, groupMembers AS G, groups AS R WHERE G.member_id=:user_id AND R.id=G.group_id AND M.groups_id=G.group_id AND U.id=M.user_id ORDER BY M.id;")
-    result = db.session.execute(sql, {"query":"%"+query+"%", "user_id": session["user_id"]})
+    result = db.session.execute(sql, {"user_id": session["user_id"]})
     sql_results = result.fetchall()
     proper_results = []
     for result in sql_results:
@@ -152,6 +154,11 @@ def get_votes(id):
     result = db.session.execute(sql, {"id": id})
     results = result.fetchall()
     return results
+
+def get_all_votes():
+    sql = "SELECT * FROM messageRatings"
+    result = db.session.execute(sql)
+    return result.fetchall()
 
 def report(id):
     sql = "SELECT message_id FROM reports WHERE message_id=:message_id"

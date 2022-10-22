@@ -21,8 +21,8 @@ def register():
         password = request.form["password"]
         if users.check_user(username):
             return render_template("error.html", error="Tunnus on jo olemassa")
-        if len(username) < 3 or len(password) < 3:
-            return render_template("error.html", error="Tunnus tai salasana liian lyhyt")
+        if len(username) < 4 or len(password) < 4 or len(username) > 20 or len(password) > 20:
+            return render_template("error.html", error="Tunnus tai salasana on liian lyhyt tai pitkä")
         if users.register(username, password):
             return redirect("/")
         return render_template("error.html", error="Rekisteröinti epäonnistui")
@@ -35,7 +35,7 @@ def login():
         username = request.form["username"]
         password = request.form["password"]
         if len(username) == 0 or len(password) == 0:
-            return render_template("error.html", error="Tunnus tai salasana ei voi olla tyhjä")
+            return render_template("error.html", error="Syötä tunnus ja salasana")
         if users.login(username, password):
             return redirect("/")
         return render_template("error.html", error="Väärä tunnus tai salasana")
@@ -70,8 +70,6 @@ def newConversation():
 
 @app.route("/conversation", methods=["POST", "GET"])
 def conversation():
-    if request.method == "GET":
-        print(request.form["delete_group"])
     members = request.form["group"]
     who_receive = functions.get_group_id(members)
     who_receive_s = str(who_receive).strip(",()")
@@ -108,8 +106,14 @@ def messages():
                 functions.delete_message(id)
             except:
                 pass
-    all_messages = functions.get_messages()
-    return render_template("messages.html", allMessages=all_messages)
+    try:
+        session["user_id"]
+        secret_messages = functions.get_messages()
+        ratings = functions.get_all_votes()
+        return render_template("messages.html", secret_messages=secret_messages, ratings=ratings)
+    except:
+        publ_messages = functions.get_public_messages()
+        return render_template("messages.html", publ_messages=publ_messages)
 
 @app.route("/exit_group")
 def exit_group():
@@ -127,4 +131,3 @@ def search():
     if len(results) > 0:
         return render_template("results.html", results=results)
     return render_template("error.html", error="Ei tuloksia hakusanalla")
-
