@@ -10,7 +10,7 @@ CREATE TABLE messages (
     content TEXT,
     sent_at TIMESTAMP,
     user_id INTEGER REFERENCES users,
-    groups_id INTEGER REFERENCES groups
+    groups_id INTEGER REFERENCES groups ON DELETE CASCADE
 );
 
 CREATE TABLE groups (
@@ -25,7 +25,7 @@ CREATE TABLE groupMembers (
 
 CREATE TABLE messageRatings (
     id SERIAL PRIMARY KEY,
-    message_id INTEGER REFERENCES messages,
+    message_id INTEGER REFERENCES messages ON DELETE CASCADE,
     likes INTEGER DEFAULT 0,
     dislikes INTEGER DEFAULT 0
 );
@@ -38,7 +38,7 @@ CREATE TABLE publicMessages (
 
 CREATE TABLE reports (
     id SERIAL PRIMARY KEY,
-    message_id INTEGER REFERENCES messages,
+    message_id INTEGER REFERENCES messages ON DELETE CASCADE,
     report_count INTEGER DEFAULT 0
 );
 
