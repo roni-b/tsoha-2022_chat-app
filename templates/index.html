@@ -32,6 +32,17 @@
             </li>
           </ul>
         </nav>
+        <h3>Viestit</h3>
+        <div class="embed-responsive embed-responsive-4by3">
+          <iframe class="embed-responsive-item" src="/messages"></iframe>
+        </div>
+        <form action="/send" method="POST" onsubmit="return check(this)">
+          <div class="form-inline">
+            <input class="form-control mb-2 mr-sm-2" type="text" placeholder="Kirjoita viesti tähän">
+            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+            <input class="btn btn-primary mb-2" type="submit" value="Lähetä">
+          </div>
+        </form>
       {% endif %}
       {% endblock %}
       </div>
@@ -41,15 +52,19 @@
       {% if session.user_id %}
         <div class="grp">
         <h3>Omat ryhmät</h3>
-      {% for group in groups %}
         <form action="/conversation" method="POST">
-          <input class="btn btn-primary btn-sm" name="group" value="{{group[0]}}" type="submit">
-        </form>
+        <div class="btn-group-vertical" role="group" style="width: 100%;">
+      {% for group in groups %}
+          <button type="submit" class="btn btn-primary btn-sm" name="group" value="{{group[0]}}">{{group[0]}}</button>
       {% endfor %}
+        </div>
+        </form>
+      {% if groups %}
       {% if session.receive %}
         <form action="/exit_group" method="GET">
           <input class="btn btn-danger btn-sm" value="Poistu nykyisestä ryhmästä" type="submit">
         </form>
+      {% endif %}
       {% endif %}
         </div>
         <div class="usr">
@@ -57,13 +72,13 @@
         <form action="/new_conversation" method="POST">
       {% for user in users %}
       {% if user[0] != session.username%}
-        <div class="form-check">
-          <input type="checkbox" class="form-check-input" name="choices" value="{{user[0]}}" id="check_default">
-          <label class="form-check-label" for="check_default">{{user[0]}}</label>
-        </div>
+          <div class="form-check">
+            <input type="checkbox" class="form-check-input" name="choices" value="{{user[0]}}" id="check_default">
+            <label class="form-check-label" for="check_default">{{user[0]}}</label>
+          </div>
       {% endif %}
       {% endfor %}
-          <input class="btn btn-primary btn-sm" type="submit" value="Luo viestiketju">
+          <button class="btn btn-primary btn-sm" type="submit">Luo ryhmä</button>
         </form>
         <form action="/search" method="GET">
           <div class="form-group">
@@ -88,6 +103,5 @@
             alert("Teksti ylittää 100 merkin rajan");
             return false;
         }
-        return true;
-    } 
-  </script>
+    }
+</script>

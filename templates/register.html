@@ -7,18 +7,18 @@
     <input type="text" class="form-control" id="input-user" name="username"></p>
     <label for="input-password">Salasana</label>
     <input type="password" class="form-control" id="input-password" name="password"></p>
-    <input class="btn btn-primary btn-sm" type="submit" value="Rekisteröidy">
+    <input class="btn btn-primary btn-sm mb-2 mr-sm-2" type="submit" value="Rekisteröidy">
+    <small id="help" class="text-muted mb-2">Tunnuksen ja salasanan pituuden on oltava 4-20 merkkiä</small>
 </form>
-<a href="/">Etusivulle</a> 
 {% endblock %}
 {% block second %}
 <nav class="navbar navbar-expand-sm navbar-primary">
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="/login">Kirjaudu</a>
+        <a class="nav-link" href="/">Etusivulle</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="/register">Rekisteröidy</a>
+        <a class="nav-link" href="/login">Kirjaudu</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="https://github.com/roni-b/tsoha-2022_chat-app">tsoha-2022_chat-app - GitHub</a>

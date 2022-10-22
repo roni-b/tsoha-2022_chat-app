@@ -3,7 +3,8 @@
 <link rel="stylesheet" type="text/css" href="/static/custom.css">
 
 <div class="show_messages">
-{% for message in allMessages %}
+{% if session.user_id %}
+{% for message in secret_messages %}
 <b>{{message[3]}}</b>
 <br>
 {{message[1]}}
@@ -30,10 +31,11 @@
 <br>
 <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#second-{{message[0]}}" aria-expanded="false" aria-controls="second-{{message[0]}}">Toiminnot</button>
 <div class="collapse" id="second-{{message[0]}}">
+
     <div class="card card-body">
         <form action="/messages" method="GET" class="rate">
-            <input type="submit" class="btn btn-success btn-sm" value="Tykkää" name="rate">
-            <input type="submit" class="btn btn-danger btn-sm" value="Älä tykkää" name="rate">
+            <input type="submit" class="btn btn-success btn-sm" value="Tykkää{% for rate in ratings %} {% if rate[3] == message[0] %} {{rate[1]}} {% endif %}{% endfor %}" name="rate">
+            <input type="submit" class="btn btn-danger btn-sm" value="Älä tykkää{% for rate in ratings %} {% if rate[3] == message[0] %} {{rate[2]}} {% endif %}{% endfor %}" name="rate">
             <input type="submit" class="btn btn-warning btn-sm" value="Raportoi" name="rate">
             <input type="hidden" name="id" value="{{message[0]}}">
         </form>
@@ -42,9 +44,15 @@
 {% endif %}
 <hr>
 {% endfor %}
+
+{% else %} 
+{% for message in publ_messages %} 
+{{message[1]}}
+<hr>
+{% endfor %}
+
+{% endif %}
 </div>
-
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
