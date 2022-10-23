@@ -48,7 +48,7 @@ def logout():
 @app.route("/send", methods=["POST"])
 def send():
     new = request.form["new_message"]
-    if len(new) > 200:
+    if len(new) > 1000:
         return render_template("error.html", error="Viesti on liian pitkä")
     if len(new) == 0:
         return render_template("error.html", error="Viesti ei voi olla tyhjä")
@@ -84,7 +84,7 @@ def messages():
         username = request.args["username"]
         if username != session["username"]:
             return redirect("/")
-        if len(query) > 0 and len(query) < 200:
+        if len(query) > 0 and len(query) < 1000:
             functions.edit_message(id, query)
     except:
         try:
