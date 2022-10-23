@@ -10,6 +10,16 @@
 {{message[3]}}
     </div>
     <div class="p-2">
+        <p class="text-success">
+{% for rate in ratings %} {% if rate[3] == message[0] %} {{rate[1]}} {% endif %}{% endfor %}
+        </p>
+    </div>
+    <div class="p-2"> 
+        <p class="text-danger">
+{% for rate in ratings %} {% if rate[3] == message[0] %} {{rate[2]}} {% endif %}{% endfor %}
+        </p>
+    </div>
+    <div class="p-2">
 {{message[2].strftime("%d.%m. %H:%M")}}
     </div>
 </div>
@@ -22,7 +32,6 @@
     <input type="submit" class="btn btn-outline-danger btn-sm" value="Poista viesti" name="delete">
     <input type="hidden" name="id" value="{{message[0]}}">
     <input type="hidden" name="username" value="{{message[3]}}">
-    {% for rate in ratings %} {% if rate[3] == message[0] %} {{rate[1]}} {% endif %}{% endfor %}
 </form>
 <div class="collapse" id="first-{{message[0]}}">
     <div class="card card-body">
@@ -40,8 +49,8 @@
 
     <div class="card card-body">
         <form action="/messages" method="GET" class="rate">
-            <input type="submit" class="btn btn-success btn-sm" value="Tykkää{% for rate in ratings %} {% if rate[3] == message[0] %} {{rate[1]}} {% endif %}{% endfor %}" name="rate">
-            <input type="submit" class="btn btn-danger btn-sm" value="Älä tykkää{% for rate in ratings %} {% if rate[3] == message[0] %} {{rate[2]}} {% endif %}{% endfor %}" name="rate">
+            <input type="submit" class="btn btn-success btn-sm" value="Tykkää" name="rate">
+            <input type="submit" class="btn btn-danger btn-sm" value="Älä tykkää" name="rate">
             <input type="submit" class="btn btn-warning btn-sm" value="Raportoi" name="rate">
             <input type="hidden" name="id" value="{{message[0]}}">
         </form>
