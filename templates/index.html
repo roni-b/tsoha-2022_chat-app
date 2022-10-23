@@ -32,14 +32,12 @@
             </li>
           </ul>
         </nav>
-        <h3>Viestit</h3>
         <div class="embed-responsive embed-responsive-4by3">
           <iframe class="embed-responsive-item" src="/messages"></iframe>
         </div>
         <form action="/send" method="POST" onsubmit="return check(this)">
           <div class="form-inline">
-            <input class="form-control mb-2 mr-sm-2" type="text" placeholder="Kirjoita viesti tähän">
-            <input type="hidden" name="csrf_token" value="{{ session.csrf_token }}">
+            <input class="form-control mb-2 mr-sm-2" type="text" placeholder="Kirjoita viesti tähän" name="new_message">
             <input class="btn btn-primary mb-2" type="submit" value="Lähetä">
           </div>
         </form>
@@ -99,8 +97,8 @@
 
 <script>
     function check(form) {
-        if (form.new_message.value.length > 100) {
-            alert("Teksti ylittää 100 merkin rajan");
+        if (form.new_message.value.length > 200) {
+            alert("Teksti ylittää 200 merkin rajan");
             return false;
         }
     }

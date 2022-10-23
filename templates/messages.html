@@ -5,11 +5,17 @@
 <div class="show_messages">
 {% if session.user_id %}
 {% for message in secret_messages %}
-<b>{{message[3]}}</b>
-<br>
+<div class="d-flex">
+    <div class="mr-auto p2">
+{{message[3]}}
+    </div>
+    <div class="p-2">
+{{message[2].strftime("%d.%m %H:%M")}}
+    </div>
+</div>
 {{message[1]}}
 <br>
-<b>{{message[2].strftime("%d.%m %H:%M")}}</b>
+<br>
 {% if session.username == message[3] %}
 <form action="/messages" method="GET" class="edit">
     <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#first-{{message[0]}}" aria-expanded="false" aria-controls="#first-{{message[0]}}" name="testi">Muokkaa viestiä</button>
@@ -28,7 +34,6 @@
     </div>
 </div>
 {% else %}
-<br>
 <button class="btn btn-outline-secondary btn-sm" type="button" data-toggle="collapse" data-target="#second-{{message[0]}}" aria-expanded="false" aria-controls="second-{{message[0]}}">Toiminnot</button>
 <div class="collapse" id="second-{{message[0]}}">
 
@@ -44,13 +49,18 @@
 {% endif %}
 <hr>
 {% endfor %}
-
 {% else %} 
 {% for message in publ_messages %} 
+<div class="d-flex">
+    <div class="mr-auto p-2">
 {{message[1]}}
+    </div>
+    <div class="p-2">
+{{message[2].strftime("%d.%m %H:%M")}}
+    </div>
+</div>
 <hr>
 {% endfor %}
-
 {% endif %}
 </div>
 
