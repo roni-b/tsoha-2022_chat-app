@@ -36,7 +36,7 @@
 <div class="collapse" id="first-{{message[0]}}">
     <div class="card card-body">
         <form action="/messages" method="GET" class="edit">
-            <textarea placeholder="Kirjoita uusi viesti" name="message_edited"></textarea>
+            <textarea name="message_edited">{{message[1]}}</textarea>
             <input type="submit" class="btn btn-primary btn-sm" value="Lähetä" name="edit">
             <input type="hidden" name="id" value="{{message[0]}}">
             <input type="hidden" name="username" value="{{message[3]}}">
