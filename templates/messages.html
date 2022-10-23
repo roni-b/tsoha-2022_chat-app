@@ -10,7 +10,7 @@
 {{message[3]}}
     </div>
     <div class="p-2">
-{{message[2].strftime("%d.%m %H:%M")}}
+{{message[2].strftime("%d.%m. %H:%M")}}
     </div>
 </div>
 {{message[1]}}
@@ -22,6 +22,7 @@
     <input type="submit" class="btn btn-outline-danger btn-sm" value="Poista viesti" name="delete">
     <input type="hidden" name="id" value="{{message[0]}}">
     <input type="hidden" name="username" value="{{message[3]}}">
+    {% for rate in ratings %} {% if rate[3] == message[0] %} {{rate[1]}} {% endif %}{% endfor %}
 </form>
 <div class="collapse" id="first-{{message[0]}}">
     <div class="card card-body">
@@ -56,7 +57,7 @@
 {{message[1]}}
     </div>
     <div class="p-2">
-{{message[2].strftime("%d.%m %H:%M")}}
+{{message[2].strftime("%d.%m. %H:%M")}}
     </div>
 </div>
 <hr>
