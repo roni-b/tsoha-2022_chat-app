@@ -74,7 +74,8 @@ def add_message(new):
         db.session.commit()
         return True
     except: 
-        return False
+        add_message_for_all(new)
+        return True
 
 def add_message_for_all(new):
     dif = timedelta(hours=3)
